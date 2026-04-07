@@ -73,11 +73,11 @@ export function VideoBackground() {
       >
         <video
           ref={videoRef}
-          src={VIDEO_SRC}
           muted
           loop
           playsInline
-          preload="auto"
+          autoPlay
+          preload="metadata"
           style={{
             width: "100%",
             height: "110%",
@@ -85,7 +85,9 @@ export function VideoBackground() {
             objectPosition: "center",
             display: "block",
           }}
-        />
+        >
+          <source src={VIDEO_SRC} type="video/mp4" />
+        </video>
       </motion.div>
 
       {/* Gradient overlay */}
