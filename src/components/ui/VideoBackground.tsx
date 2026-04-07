@@ -12,7 +12,7 @@ export function VideoBackground() {
   const reducedMotion = useReducedMotion();
 
   const scrollProgress = useMotionValue(0);
-  const parallaxY = useTransform(scrollProgress, [0, 1], ["0%", "-12%"]);
+  const parallaxY = useTransform(scrollProgress, [0, 1], ["0%", "-25%"]);
 
   useEffect(() => {
     function onScroll() {
@@ -80,7 +80,7 @@ export function VideoBackground() {
           preload="metadata"
           style={{
             width: "100%",
-            height: "110%",
+            height: "130%",
             objectFit: "cover",
             objectPosition: "center",
             display: "block",
