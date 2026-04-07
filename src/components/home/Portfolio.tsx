@@ -35,23 +35,25 @@ function PortfolioCard({ item, isMobile }: { item: PortfolioItem; isMobile: bool
     >
       {/* Left: role badge + title */}
       <div style={{ display: "flex", alignItems: "center", gap: "1.25rem", flexShrink: 0 }}>
-        <span
-          style={{
-            fontFamily: "var(--font-body)",
-            fontSize: "0.55rem",
-            fontWeight: 700,
-            textTransform: "uppercase",
-            letterSpacing: "0.18em",
-            color: hovered ? "var(--accent2)" : "var(--accent)",
-            border: `1px solid ${hovered ? "rgba(232,213,183,0.5)" : "rgba(200,180,154,0.3)"}`,
-            borderRadius: "999px",
-            padding: "0.2rem 0.65rem",
-            whiteSpace: "nowrap",
-            transition: "color 0.25s ease, border-color 0.25s ease",
-          }}
-        >
-          {item.role}
-        </span>
+        {item.role && (
+          <span
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: "0.55rem",
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "0.18em",
+              color: hovered ? "var(--accent2)" : "var(--accent)",
+              border: `1px solid ${hovered ? "rgba(232,213,183,0.5)" : "rgba(200,180,154,0.3)"}`,
+              borderRadius: "999px",
+              padding: "0.2rem 0.65rem",
+              whiteSpace: "nowrap",
+              transition: "color 0.25s ease, border-color 0.25s ease",
+            }}
+          >
+            {item.role}
+          </span>
+        )}
 
         <h3
           style={{
@@ -155,7 +157,7 @@ export function Portfolio() {
             opacity: 0.7,
           }}
         >
-          What I&apos;m Building
+          Currently Building
         </p>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>

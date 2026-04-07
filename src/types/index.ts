@@ -7,7 +7,7 @@ export type Social = {
 export type PortfolioItem = {
   id: string;
   title: string;
-  role: string;
+  role?: string;
   description: string;
   link?: string;
   accent: string;
