@@ -1,19 +1,4 @@
-import type { Brand, Project, Social, PortfolioItem } from "@/types";
-
-export const brands: Brand[] = [
-  { name: "Saucony", category: "Footwear" },
-  { name: "RVCA", category: "Apparel" },
-  { name: "Allbirds", category: "Footwear" },
-  { name: "Suunto", category: "Outdoor Tech" },
-];
-
-export const projects: Project[] = [
-  { id: "playdex", title: "Playdex", description: "Gaming discovery & matchmaking platform for SEA", tags: ["Next.js", "PostgreSQL", "Node"], year: "2022", link: "https://playdex.io", status: "live" },
-  { id: "playwinpremio", title: "PlayWinPremio", description: "Rewards & gaming promotions platform", tags: ["React", "Firebase"], year: "2023", link: "https://playwinpremio.com", status: "live" },
-  { id: "challenz", title: "Challenz", description: "Community challenge & accountability platform", tags: ["React Native", "Supabase"], year: "2023", link: "https://challenz.com", status: "live" },
-  { id: "kulay", title: "Kulay", description: "AI-powered color palette & design tool", tags: ["Next.js", "AI"], year: "2024", link: "https://kulay.io", status: "live" },
-  { id: "doden", title: "Doden.ai", description: "AI productivity layer for operators", tags: ["Claude API", "Next.js"], year: "2024", link: "https://doden.ai", status: "live" },
-];
+import type { Social, PortfolioItem } from "@/types";
 
 export const portfolioItems: PortfolioItem[] = [
   {

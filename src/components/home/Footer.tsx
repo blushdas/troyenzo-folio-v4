@@ -1,88 +1,70 @@
 "use client";
 
 import { useState } from "react";
-import { socials } from "@/lib/data";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export function Footer() {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
-
-  const nonEmailSocials = socials.filter((s) => s.label !== "Email");
+  const [emailHovered, setEmailHovered] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
     <footer
       style={{
-        borderTop: "1px solid var(--border)",
-        background: "var(--bg)",
-        padding: "2.5rem 2rem",
+        borderTop: "1px solid rgba(255,255,255,0.06)",
+        background: "rgba(6,6,6,0.7)",
+        backdropFilter: "blur(16px)",
+        WebkitBackdropFilter: "blur(16px)",
+        padding: isMobile ? "2rem 1.75rem" : "2.25rem 4rem",
+        position: "relative",
+        zIndex: 2,
       }}
     >
       <div
         style={{
-          maxWidth: "1200px",
+          maxWidth: "1100px",
           margin: "0 auto",
           display: "flex",
+          flexDirection: isMobile ? "column" : "row",
           alignItems: "center",
           justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: "1.5rem",
+          gap: "1rem",
         }}
       >
         {/* Branding */}
         <p
           style={{
-            fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
-            fontSize: "0.7rem",
-            fontWeight: 600,
+            fontFamily: "var(--font-body)",
+            fontSize: "0.65rem",
+            fontWeight: 700,
             textTransform: "uppercase",
-            letterSpacing: "0.12em",
-            color: "var(--muted)",
+            letterSpacing: "0.15em",
+            color: "rgba(240,240,240,0.25)",
             margin: 0,
           }}
         >
           Troy Enzo 2026™
         </p>
 
-        {/* Social links */}
-        <nav style={{ display: "flex", alignItems: "center", gap: "1.75rem", flexWrap: "wrap" }}>
-          {nonEmailSocials.map((s) => (
-            <a
-              key={s.label}
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={() => setHoveredId(s.label)}
-              onMouseLeave={() => setHoveredId(null)}
-              style={{
-                fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
-                fontSize: "0.65rem",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "0.12em",
-                color: hoveredId === s.label ? "var(--text)" : "var(--muted)",
-                textDecoration: "none",
-                transition: "color 0.15s ease",
-              }}
-            >
-              {s.label}
-            </a>
-          ))}
-        </nav>
-
-        {/* Email */}
+        {/* Email CTA */}
         <a
           href="mailto:hello@troyenzo.xyz"
-          onMouseEnter={() => setHoveredId("email")}
-          onMouseLeave={() => setHoveredId(null)}
+          onMouseEnter={() => setEmailHovered(true)}
+          onMouseLeave={() => setEmailHovered(false)}
           style={{
-            fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
-            fontSize: "0.7rem",
-            fontWeight: 600,
+            fontFamily: "var(--font-body)",
+            fontSize: "0.65rem",
+            fontWeight: 700,
             textTransform: "uppercase",
-            letterSpacing: "0.08em",
-            color: "var(--accent)",
-          opacity: hoveredId === "email" ? 1 : 0.8,
+            letterSpacing: "0.14em",
+            color: emailHovered ? "var(--bg)" : "var(--accent)",
             textDecoration: "none",
-            transition: "color 0.15s ease",
+            padding: "0.4rem 1rem",
+            border: `1px solid ${emailHovered ? "var(--accent)" : "rgba(200,180,154,0.35)"}`,
+            borderRadius: "999px",
+            background: emailHovered ? "var(--accent)" : "rgba(200,180,154,0.06)",
+            transition: "background 0.2s ease, color 0.2s ease, border-color 0.2s ease",
+            backdropFilter: "blur(4px)",
+            WebkitBackdropFilter: "blur(4px)",
           }}
         >
           hello@troyenzo.xyz

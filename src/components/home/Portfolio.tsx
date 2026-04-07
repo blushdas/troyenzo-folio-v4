@@ -1,16 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import dynamic from "next/dynamic";
 import { portfolioItems } from "@/lib/data";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { PortfolioItem } from "@/types";
 
-const PortfolioScene = dynamic(
-  () => import("./PortfolioScene").then((m) => m.PortfolioScene),
-  { ssr: false }
-);
-
-function PortfolioCard({ item, index }: { item: PortfolioItem; index: number }) {
+function PortfolioCard({ item, isMobile }: { item: PortfolioItem; isMobile: boolean }) {
   const [hovered, setHovered] = useState(false);
 
   const inner = (
@@ -18,39 +13,41 @@ function PortfolioCard({ item, index }: { item: PortfolioItem; index: number }) 
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: hovered ? "rgba(200,180,154,0.04)" : "var(--surface)",
-        border: "1px solid var(--border)",
-        borderLeft: `3px solid ${hovered ? "var(--accent)" : "var(--border)"}`,
-        borderRadius: "2px",
-        padding: "2.5rem",
+        background: hovered
+          ? "rgba(200,180,154,0.08)"
+          : "rgba(6,6,6,0.45)",
+        border: "1px solid",
+        borderColor: hovered ? "rgba(200,180,154,0.3)" : "rgba(255,255,255,0.06)",
+        borderLeft: `3px solid ${hovered ? "var(--accent)" : "rgba(200,180,154,0.2)"}`,
+        borderRadius: "3px",
+        padding: isMobile ? "1.25rem" : "2rem 2.5rem",
         display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
+        flexDirection: isMobile ? "column" : "row",
+        alignItems: isMobile ? "flex-start" : "center",
         justifyContent: "space-between",
-        gap: "2rem",
-        transition: "border-left-color 0.25s ease, background 0.25s ease",
+        gap: isMobile ? "1rem" : "2rem",
+        transition: "background 0.25s ease, border-color 0.25s ease",
         cursor: item.link ? "pointer" : "default",
         textDecoration: "none",
-        position: "relative",
-        zIndex: 1,
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
       }}
     >
       {/* Left: role badge + title */}
-      <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", flexShrink: 0 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "1.25rem", flexShrink: 0 }}>
         <span
           style={{
             fontFamily: "var(--font-body)",
-            fontSize: "0.6rem",
-            fontWeight: 600,
+            fontSize: "0.55rem",
+            fontWeight: 700,
             textTransform: "uppercase",
-            letterSpacing: "0.15em",
-            color: "var(--accent)",
-            border: "1px solid var(--accent)",
+            letterSpacing: "0.18em",
+            color: hovered ? "var(--accent2)" : "var(--accent)",
+            border: `1px solid ${hovered ? "rgba(232,213,183,0.5)" : "rgba(200,180,154,0.3)"}`,
             borderRadius: "999px",
-            padding: "0.2rem 0.6rem",
+            padding: "0.2rem 0.65rem",
             whiteSpace: "nowrap",
-            opacity: hovered ? 1 : 0.6,
-            transition: "opacity 0.25s ease",
+            transition: "color 0.25s ease, border-color 0.25s ease",
           }}
         >
           {item.role}
@@ -58,12 +55,12 @@ function PortfolioCard({ item, index }: { item: PortfolioItem; index: number }) 
 
         <h3
           style={{
-            fontFamily: "var(--font-display)",
-            fontWeight: 700,
-            fontSize: "clamp(1.2rem, 2.5vw, 1.75rem)",
-            color: hovered ? "var(--text)" : "rgba(240,240,240,0.85)",
+            fontFamily: "var(--font-body)",
+            fontWeight: 800,
+            fontSize: isMobile ? "1.1rem" : "clamp(1.1rem, 2.2vw, 1.6rem)",
+            color: hovered ? "var(--text)" : "rgba(240,240,240,0.8)",
             margin: 0,
-            letterSpacing: "-0.01em",
+            letterSpacing: "-0.02em",
             textTransform: "uppercase",
             transition: "color 0.25s ease",
           }}
@@ -73,17 +70,26 @@ function PortfolioCard({ item, index }: { item: PortfolioItem; index: number }) 
       </div>
 
       {/* Right: description + arrow */}
-      <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", flex: 1, justifyContent: "flex-end" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "1.25rem",
+          flex: isMobile ? undefined : 1,
+          justifyContent: isMobile ? "flex-start" : "flex-end",
+        }}
+      >
         <p
           style={{
             fontFamily: "var(--font-body)",
-            fontSize: "0.85rem",
-            color: "var(--muted)",
+            fontSize: "0.82rem",
+            color: hovered ? "rgba(240,240,240,0.65)" : "var(--muted)",
             margin: 0,
-            textAlign: "right",
-            maxWidth: "380px",
+            textAlign: isMobile ? "left" : "right",
+            maxWidth: isMobile ? "100%" : "360px",
             letterSpacing: "0.02em",
-            lineHeight: 1.6,
+            lineHeight: 1.65,
+            transition: "color 0.25s ease",
           }}
         >
           {item.description}
@@ -93,8 +99,8 @@ function PortfolioCard({ item, index }: { item: PortfolioItem; index: number }) 
           <span
             style={{
               color: "var(--accent)",
-              fontSize: "1.1rem",
-              opacity: hovered ? 1 : 0.35,
+              fontSize: "1rem",
+              opacity: hovered ? 1 : 0.3,
               transition: "opacity 0.25s ease, transform 0.25s ease",
               transform: hovered ? "translate(3px, -3px)" : "translate(0, 0)",
               flexShrink: 0,
@@ -109,7 +115,12 @@ function PortfolioCard({ item, index }: { item: PortfolioItem; index: number }) 
 
   if (item.link) {
     return (
-      <a href={item.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "block" }}>
+      <a
+        href={item.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ textDecoration: "none", display: "block" }}
+      >
         {inner}
       </a>
     );
@@ -119,37 +130,37 @@ function PortfolioCard({ item, index }: { item: PortfolioItem; index: number }) 
 }
 
 export function Portfolio() {
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
   return (
     <section
       style={{
-        background: "var(--bg)",
-        padding: "6rem 2rem",
+        background: "transparent",
+        padding: isMobile ? "3rem 1rem" : "6rem 2rem",
         position: "relative",
-        overflow: "hidden",
+        zIndex: 2,
       }}
     >
-      {/* 3D background — loaded client-side only */}
-      <PortfolioScene />
-
-      <div style={{ maxWidth: "1200px", margin: "0 auto", position: "relative", zIndex: 1 }}>
+      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
         <p
           style={{
             fontFamily: "var(--font-body)",
-            fontSize: "0.65rem",
-            fontWeight: 600,
+            fontSize: "0.6rem",
+            fontWeight: 700,
             textTransform: "uppercase",
-            letterSpacing: "0.15em",
-            color: "var(--muted)",
+            letterSpacing: "0.2em",
+            color: "var(--accent)",
             margin: 0,
-            marginBottom: "2.5rem",
+            marginBottom: "2rem",
+            opacity: 0.7,
           }}
         >
           What I&apos;m Building
         </p>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          {portfolioItems.map((item, i) => (
-            <PortfolioCard key={item.id} item={item} index={i} />
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+          {portfolioItems.map((item) => (
+            <PortfolioCard key={item.id} item={item} isMobile={isMobile} />
           ))}
         </div>
       </div>
